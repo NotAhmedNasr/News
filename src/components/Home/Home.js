@@ -1,6 +1,11 @@
+import NewsCards from "./NewsCards/NewsCards"
 
 const Home = (props) => {
-	return (<div></div>);
+	return (
+		<div>
+			<NewsCards />
+		</div>
+	);
 }
 
 export default Home;

@@ -1,0 +1,17 @@
+.Source {
+	padding: 50px 30px 30px 30px;
+	position: relative;
+}
+
+.Card_title {
+	margin: 0;
+}
+
+.Card_sub_title {
+	font-size: 0.9rem;
+	color: var(--dark);
+}
+
+.Source_link {
+	font-size: 0.9rem;
+}
