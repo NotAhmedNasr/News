@@ -1,35 +1,40 @@
 import { useFormik } from "formik";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../App";
+import { addUser } from "../../services/UserService";
 
 
 const SignUp = (props) => {
+	const context = useContext(UserContext);
+	const [dupError, setDupError] = useState(false);
 
 	const validate = values => {
 		const errors = {};
 
 		if (!values.firstname) {
-            errors.firstname = 'This field is required!';
-        } else if (!values.firstname.match(/^[a-zA-Z]{2,50}$/)) {
-            errors.firstname = 'Invalid First name!';
-        }
+			errors.firstname = 'This field is required!';
+		} else if (!values.firstname.match(/^[a-zA-Z]{2,50}$/)) {
+			errors.firstname = 'Invalid First name!';
+		}
 
 		if (!values.lastname) {
-            errors.lastname = 'This field is required!';
-        } else if (!values.lastname.match(/^[a-zA-Z]{2,50}$/)) {
-            errors.lastname = 'Invalid Last name!';
-        }
+			errors.lastname = 'This field is required!';
+		} else if (!values.lastname.match(/^[a-zA-Z]{2,50}$/)) {
+			errors.lastname = 'Invalid Last name!';
+		}
 
 		if (!values.email) {
-            errors.email = 'This field is required!';
-        } else if (!values.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-            errors.email = 'Invalid email!';
-        }
+			errors.email = 'This field is required!';
+		} else if (!values.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+			errors.email = 'Invalid email!';
+		}
 
 		if (!values.password) {
-            errors.password = 'This field is required!';
-        } else if (!values.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) {
-            errors.password = 'Password must be 8 characters or more and must include a letter, a number and a special character!';
-        }
+			errors.password = 'This field is required!';
+		} else if (!values.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) {
+			errors.password = 'Password must be 8 characters or more and must include a letter, a number and a special character!';
+		}
 
 		return errors;
 	}
@@ -42,71 +47,79 @@ const SignUp = (props) => {
 			password: '',
 		},
 		validate,
-		onSubmit: value => {
-
+		onSubmit: values => {
+			addUser(values).then(res => {
+				context.setUser(res.data);
+				localStorage.setItem('Authorization', res.data.token);
+			}).catch(err => {
+				if(err.response.status === 409) {
+					setDupError(true);
+				}
+			});
 		}
 	});
 
 	return (
-		<div id="login" class="dialog card">
+		<div id="login" className="dialog card">
 			<h1>
 				Sign up
 			</h1>
 
-			<form class="form" onSubmit={formik.handleSubmit}>
-				<div class="form-group">
-					<label for="firstname" class="form-label">First name</label>
-					<input 
+			<form className="form" onSubmit={formik.handleSubmit}>
+				<div className="form-group">
+					<label htmlFor="firstname" className="form-label">First name</label>
+					<input
 						name='firstname'
 						id="firstname"
 						type='text'
 						value={formik.values.firstname}
 						onChange={formik.handleChange}
-						onBlur={formik.handleBlur} 
-						class="form-control" />
+						onBlur={formik.handleBlur}
+						className="form-control" />
 					{formik.errors.firstname && formik.touched.firstname ? <small className="invalid">{formik.errors.firstname}</small> : null}
 				</div>
 
-				<div class="form-group">
-					<label for="lastname" class="form-label">Last name</label>
-					<input 
+				<div className="form-group">
+					<label htmlFor="lastname" className="form-label">Last name</label>
+					<input
 						name='lastname'
 						id="lastname"
 						type='text'
 						value={formik.values.lastname}
 						onChange={formik.handleChange}
-						onBlur={formik.handleBlur} 
-						class="form-control" />
+						onBlur={formik.handleBlur}
+						className="form-control" />
 					{formik.errors.lastname && formik.touched.lastname ? <small className="invalid">{formik.errors.lastname}</small> : null}
 				</div>
 
-				<div class="form-group">
-					<label for="email" class="form-label">Email</label>
-					<input 
+				<div className="form-group">
+					<label htmlFor="email" className="form-label">Email</label>
+					<input
 						name='email'
 						id="email"
 						type='text'
 						value={formik.values.email}
 						onChange={formik.handleChange}
-						onBlur={formik.handleBlur} 
-						class="form-control" />
+						onBlur={formik.handleBlur}
+						className="form-control" />
 					{formik.errors.email && formik.touched.email ? <small className="invalid">{formik.errors.email}</small> : null}
+					{dupError && <small className="invalid">This email is already used!</small>}
 				</div>
 
-				<div class="form-group">
-					<label for="password" class="form-label">Password</label>
-					<input 
+				<div className="form-group">
+					<label htmlFor="password" className="form-label">Password</label>
+					<input
 						name='password'
 						id="password"
 						type='password'
 						value={formik.values.password}
 						onChange={formik.handleChange}
-						onBlur={formik.handleBlur} 
-						class="form-control"/>
+						onBlur={formik.handleBlur}
+						className="form-control" />
 					{formik.errors.password && formik.touched.password ? <small className="invalid">{formik.errors.password}</small> : null}
 				</div>
 
-				<button type="submit" class="form-button">Sign up</button>
+				<button type="submit" className="form-button">Sign up</button>
 
 				<small>
 					Already have an account? <Link to="/login">log in!</Link>

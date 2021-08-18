@@ -33,3 +33,13 @@
 	font-size: 2rem;
 	color: var(--medium);
 }
+
+.User {
+	margin-left: auto;
+	color: var(--font-light);
+}
+
+.Name {
+	font-weight: bold;
+	font-size: 1.1rem;
+}
