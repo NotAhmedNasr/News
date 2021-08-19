@@ -1,6 +1,8 @@
 .Source {
 	padding: 50px 30px 30px 30px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
 .Card_title {

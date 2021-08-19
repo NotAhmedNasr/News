@@ -107,3 +107,7 @@ a:hover {
 	color: rgb(200, 0, 0);
 	font-weight: bold;
 }
+
+.spacer {
+	flex: 1 1 auto;
+}

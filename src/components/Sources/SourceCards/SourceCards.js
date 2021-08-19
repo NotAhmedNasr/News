@@ -1,14 +1,14 @@
 import SourceCard from "./SourceCard/SourceCard"
 
 
-const SourceCards = (props) => {
+const SourceCards = ({ sources, subscribe, unsubscribe }) => {
 
 
 	return (
 		<>
-			<SourceCard />
-			<SourceCard />
-			<SourceCard />
+			{ sources.map(source => {
+				return <SourceCard key={source.id} source={source} subscribe={subscribe} unsubscribe={unsubscribe}/>;
+			}) }
 		</>
 	);
 };

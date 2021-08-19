@@ -11,3 +11,12 @@ export const login = login => {
 export const getCurrentUser = () => {
 	return axios.get('/user/');
 }
+
+export const subscribeToSource = sourceId => {
+    return axios.patch(`/user/subscribe/${sourceId}`);
+};
+
+export const unsubscribeFromSource = sourceId => {
+    return axios.patch(`/user/unsubscribe/${sourceId}`);
+};
+
