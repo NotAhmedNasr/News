@@ -111,3 +111,7 @@ a:hover {
 .spacer {
 	flex: 1 1 auto;
 }
+
+.form-button.active {
+	background-color: rgb(200, 0, 0);
+}

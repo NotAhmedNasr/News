@@ -11,13 +11,17 @@ const Home = (props) => {
 	const [endOfData, setEndOfData] = useState(false);
 
 	useEffect(() => {
+		didMount();
+	}, []);
+
+	const didMount = () => {
 		setLoading(true);
 		getNews().then(res => {
 			setNews(res.data);
 		}).catch(err => {
 			throw Error(err);
 		}).finally(() => setLoading(false));
-	}, []);
+	}
 
 	const getMoreNews = () => {
 		setLoading(true);
@@ -26,38 +30,55 @@ const Home = (props) => {
 				setEndOfData(true);
 				return;
 			}
+
 			const updated = [...news, ...res.data];
 			setNews(updated);
+			
 			setPage(page + 1);
 		}).catch(err => {
 			setEndOfData(true);
-			throw Error(err);
 		}).finally(() => setLoading(false));
 	}
 
+	// UI Elements
+	const UIcontent = (
+		<div>
+			<h1 className="heading">Latest News</h1>
+			<div className={Style.News_container}>
+				<NewsCards news={news} />
+			</div>
+			{
+				!loading ?
+					!endOfData && <button onClick={getMoreNews} className="form-button">Load more</button> :
+					<div className={Style.Loading}>
+						<Spinner />
+					</div>
+			}
+		</div>
+	);
+
+	const UInoContent = (
+		<div>
+			<h2 className="heading">Nothing to show! <br /> Subscribe to more Sources to see more articles!</h2>
+		</div>
+	);
+
+	const UIloader = (
+		<div className={Style.Loading}>
+			<Spinner />
+		</div>
+	);
+
+
+
 	return (
-		news ? news.length > 0 ?
-			<div>
-				<h1 className="heading">Latest News</h1>
-				<div className={Style.News_container}>
-					<NewsCards news={news} />
-				</div>
-				{
-					!loading ?
-						!endOfData && <button onClick={getMoreNews} className="form-button">Load more</button> :
-						<div className={Style.Loading}>
-							<Spinner />
-						</div>
-				}
-			</div>
+		news ?
+			news.length > 0 ?
+				UIcontent
+				:
+				UInoContent
 			:
-			<div>
-				<h2 className="heading">Nothing to show! <br /> Subscribe to more Sources to see more articles!</h2>
-			</div>
-			:
-			<div className={Style.Loading}>
-				<Spinner />
-			</div>
+			UIloader
 	);
 }
 

@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 import { addUser } from "../../services/UserService";
@@ -9,6 +9,16 @@ const SignUp = (props) => {
 	const context = useContext(UserContext);
 	const [dupError, setDupError] = useState(false);
 	const [disabled, setDisabled] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+
+	const isMounted = useRef(null);
+
+	useEffect(() => {
+		isMounted.current = true;
+		return () => {
+			isMounted.current = false;
+		}
+	}, [])
 
 	const validate = values => {
 		const errors = {};
@@ -51,11 +61,11 @@ const SignUp = (props) => {
 		onSubmit: values => {
 			setDisabled(true);
 			addUser(values).then(res => {
-				setDisabled(false);
 				context.setUser(res.data);
 				localStorage.setItem('Authorization', res.data.token);
 			}).catch(err => {
-				setDisabled(false);
+				if (isMounted.current)
+					setDisabled(false);
 				if (err.response.status === 409) {
 					setDupError(true);
 				}
@@ -115,15 +125,23 @@ const SignUp = (props) => {
 
 				<div className="form-group">
 					<label htmlFor="password" className="form-label">Password</label>
+					<span style={{float: 'right'}}>
+						<input type="checkbox" 
+							style={{marginTop: 10}} 
+							checked={showPassword} 
+							onChange={() => setShowPassword(!showPassword)}/>
+						<small>Show</small>
+					</span>
 					<input
 						name='password'
 						id="password"
 						disabled={disabled}
-						type='password'
+						type={showPassword ? 'text' : 'password'}
 						value={formik.values.password}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						className="form-control" />
+					
 					{formik.errors.password && formik.touched.password ? <small className="invalid">{formik.errors.password}</small> : null}
 				</div>
 

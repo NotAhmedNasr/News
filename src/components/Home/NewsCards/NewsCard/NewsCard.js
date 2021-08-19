@@ -5,7 +5,7 @@ const NewsCard = ({ item }) => {
 	return (
 		<div className={[Style.News, "card"].join(' ')}>
 			<div className={Style.Card_img}>
-				<img src={item.urlToImage && item.urlToImage !== "null" ? item.urlToImage : 'https://s.france24.com/media/display/d1676b6c-0770-11e9-8595-005056a964fe/w:1280/p:16x9/news_1920x1080.png'} alt="news" />
+				<img src={item.urlToImage && item.urlToImage !== "null" ? item.urlToImage : 'https://s.france24.com/media/display/d1676b6c-0770-11e9-8595-005056a964fe/w:1280/p:16x9/news_1920x1080.png'} alt="Not Available" />
 			</div>
 			<div className={Style.Card_content}>
 				<div className="floater">

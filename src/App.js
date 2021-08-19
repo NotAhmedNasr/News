@@ -19,6 +19,10 @@ function App() {
 	const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
 	useEffect(() => {
+		didMount();
+	}, []);
+
+	const didMount = () => {
 		getCurrentUser().then(res => {
 			setUser(res.data);
 			setDetermined(true);
@@ -26,7 +30,7 @@ function App() {
 			setUser(null);
 			setDetermined(true);
 		});
-	}, [])
+	}
 
 	return (determined ?
 		<div className="container">

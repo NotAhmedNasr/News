@@ -6,58 +6,70 @@ import Style from './Sources.module.css';
 import { UserContext } from '../../App';
 import Spinner from '../Auxiliary/Spinner/Spinner';
 
-export const FILTERS = {
-	all: '1',
-	sub: '2',
-	unsub: '3',
+const FILTERS = {
+	ALL: '1',
+	SUBSCRIBED: '2',
+	UNSUBSCRIBED: '3',
 };
 
 const Sources = (props) => {
 	const [sources, setSources] = useState(null);
-	const [filtered, setFiltered] = useState(null);
+	const [displayedSources, setDisplayedSources] = useState(null);
+	const [selectedFilter, setSelectedFilter] = useState(FILTERS.ALL);
 
 	const context = useContext(UserContext);
 
-	const [selectedFilter, setSelectedFilter] = useState(FILTERS.all);
 
 	useEffect(() => {
-		getAllSources().then(res => {
-			setSources(res.data);
-			setFiltered(res.data);
-		}).catch(err => {
-			console.log(err);
-		});
+		didMount();
 	}, []);
 
-	const subscribe = (sourceId) => {
-		subscribeToSource(sourceId).then(res => {
-			context.setUser(res.data);
+	const didMount = () => {
+		getAllSources().then(res => {
+			setSources(res.data);
+			setDisplayedSources(res.data);
 		}).catch(err => {
 			console.log(err);
 		});
 	}
 
-	const unsubscribe = (sourceId) => {
-		unsubscribeFromSource(sourceId).then(res => {
+	const subscribe = (sourceId, e) => {
+		e.target.disabled = true;
+		subscribeToSource(sourceId).then(res => {
+			e.target.disabled = false;
 			context.setUser(res.data);
+			removeIfSubcriptionChanged(sourceId);
 		}).catch(err => {
+			e.target.disabled = false;
+			console.log(err);
+		});
+	}
+
+	const unsubscribe = (sourceId, e) => {
+		e.target.disabled = true;
+		unsubscribeFromSource(sourceId).then(res => {
+			e.target.disabled = false;
+			context.setUser(res.data);
+			removeIfSubcriptionChanged(sourceId);
+		}).catch(err => {
+			e.target.disabled = false;
 			console.log(err);
 		});
 	}
 
 	const filterChangeHandler = e => {
 		setSelectedFilter(e.target.value);
-		setFiltered(filterSources(sources, e.target.value));
+		setDisplayedSources(filterSources(sources, e.target.value));
 	}
 
 	const filterSources = (data, filter) => {
 		return data && data.filter(item => {
 			switch (filter) {
-				case FILTERS.all:
+				case FILTERS.ALL:
 					return true;
-				case FILTERS.sub:
+				case FILTERS.SUBSCRIBED:
 					return context.user.subscribtions.indexOf(item.id) !== -1;
-				case FILTERS.unsub:
+				case FILTERS.UNSUBSCRIBED:
 					return context.user.subscribtions.indexOf(item.id) === -1;
 				default:
 					return true;
@@ -65,25 +77,61 @@ const Sources = (props) => {
 		});
 	};
 
-	const content =
-		<div className={Style.Source_container}>
-			<SourceCards sources={filtered} subscribe={subscribe} unsubscribe={unsubscribe} />
-		</div>;
-	return (
-		<div>
+	const removeIfSubcriptionChanged = (sourceId) => {
+		if (selectedFilter !== FILTERS.ALL) {
+			const updated = displayedSources.filter(item => item.id !== sourceId);
+			setDisplayedSources(updated);
+		}
+	}
+
+
+	// UI Elements
+	const UIheader = (
+		<>
 			<h1 className="heading">Available Sources</h1>
 			<div className={Style.Filters}>
-				<select className="form-control" value={selectedFilter} onChange={filterChangeHandler}>
-					<option value={FILTERS.all}>All</option>
-					<option value={FILTERS.sub}>Subscribed</option>
-					<option value={FILTERS.unsub}>Unsubscribed</option>
+				<select className="form-control"
+					value={selectedFilter}
+					onChange={filterChangeHandler}
+					disabled={!displayedSources}>
+					<option value={FILTERS.ALL}>All</option>
+					<option value={FILTERS.SUBSCRIBED}>Subscribed</option>
+					<option value={FILTERS.UNSUBSCRIBED}>Unsubscribed</option>
 				</select>
 			</div>
+		</>
+	);
+
+	const UIcontent =
+		(
+			<div className={Style.Source_container}>
+				<SourceCards sources={displayedSources} subscribe={subscribe} unsubscribe={unsubscribe} />
+			</div>
+		);
+
+	const UInoContent = (
+		<div>
+			<h1 className="heading">No sources to show</h1>
+		</div>
+	);
+
+	const UIloader = (
+		<div className={Style.Loading}>
+			<Spinner />
+		</div>
+	);
+
+	return (
+		<div>
+			{UIheader}
 			{
-				filtered ? content :
-					<div className={Style.Loading}>
-						<Spinner />
-					</div>
+				displayedSources ?
+					displayedSources.length > 0 ?
+						UIcontent
+						:
+						UInoContent
+					:
+					UIloader
 			}
 		</div>
 	);
