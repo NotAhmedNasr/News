@@ -1,0 +1,6 @@
+.News_container {
+	display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    padding: 20px;
+}

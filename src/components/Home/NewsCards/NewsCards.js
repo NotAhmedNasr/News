@@ -1,10 +1,12 @@
 import NewsCard from "./NewsCard/NewsCard"
 
-const NewsCards = (props) => {
+const NewsCards = ({ news }) => {
 
 	return (
 		<>
-			<NewsCard />
+			{ news.map(item => {
+				return <NewsCard key={item.title} item={item}/>
+			}) }
 		</>
 	);
 };
