@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../App";
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';	
 import Navbar from "./Navbar/Navbar"
 
 const Layout = (props) => {
@@ -8,9 +9,11 @@ const Layout = (props) => {
 	return (
 		<>
 			{context.user && <Navbar />}
-			<main>
-				{props.children}
-			</main>
+			<ErrorBoundary>
+				<main>
+					{props.children}
+				</main>
+			</ErrorBoundary>
 		</>
 	)
 }

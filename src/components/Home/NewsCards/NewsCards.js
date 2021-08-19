@@ -4,9 +4,11 @@ const NewsCards = ({ news }) => {
 
 	return (
 		<>
-			{ news.map(item => {
-				return <NewsCard key={item.title} item={item}/>
-			}) }
+			{
+				news.map(item => {
+					return <NewsCard key={item.publishedAt + item.title} item={item} />
+				})
+			}
 		</>
 	);
 };

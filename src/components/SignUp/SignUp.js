@@ -8,6 +8,7 @@ import { addUser } from "../../services/UserService";
 const SignUp = (props) => {
 	const context = useContext(UserContext);
 	const [dupError, setDupError] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 
 	const validate = values => {
 		const errors = {};
@@ -48,11 +49,14 @@ const SignUp = (props) => {
 		},
 		validate,
 		onSubmit: values => {
+			setDisabled(true);
 			addUser(values).then(res => {
+				setDisabled(false);
 				context.setUser(res.data);
 				localStorage.setItem('Authorization', res.data.token);
 			}).catch(err => {
-				if(err.response.status === 409) {
+				setDisabled(false);
+				if (err.response.status === 409) {
 					setDupError(true);
 				}
 			});
@@ -71,6 +75,7 @@ const SignUp = (props) => {
 					<input
 						name='firstname'
 						id="firstname"
+						disabled={disabled}
 						type='text'
 						value={formik.values.firstname}
 						onChange={formik.handleChange}
@@ -84,6 +89,7 @@ const SignUp = (props) => {
 					<input
 						name='lastname'
 						id="lastname"
+						disabled={disabled}
 						type='text'
 						value={formik.values.lastname}
 						onChange={formik.handleChange}
@@ -97,6 +103,7 @@ const SignUp = (props) => {
 					<input
 						name='email'
 						id="email"
+						disabled={disabled}
 						type='text'
 						value={formik.values.email}
 						onChange={formik.handleChange}
@@ -111,6 +118,7 @@ const SignUp = (props) => {
 					<input
 						name='password'
 						id="password"
+						disabled={disabled}
 						type='password'
 						value={formik.values.password}
 						onChange={formik.handleChange}
@@ -119,7 +127,9 @@ const SignUp = (props) => {
 					{formik.errors.password && formik.touched.password ? <small className="invalid">{formik.errors.password}</small> : null}
 				</div>
 
-				<button type="submit" className="form-button">Sign up</button>
+				<button type="submit"
+					disabled={disabled}
+					className="form-button">Sign up</button>
 
 				<small>
 					Already have an account? <Link to="/login">log in!</Link>

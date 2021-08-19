@@ -1,7 +1,7 @@
 import axios from '../axios/axios';
 
-export const getAllNews = () => {
-	return axios.get('/news/');
+export const getNews = (page, count = 10) => {
+	return axios.get(`/news/?page=${page}&count=${count}`);
 }
 
 export const getAllSources = () => {
