@@ -9,7 +9,7 @@ const Navbar = (props) => {
 	return (
 		<nav className={Style.Navbar}>
 			<div className={Style.Logo}>
-				<Link to="/">NEWS</Link>
+				<Link to="/">Keep Up!</Link>
 			</div>
 			<span className="spacer"></span>
 			<div className={Style.User}>
