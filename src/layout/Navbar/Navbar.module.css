@@ -24,9 +24,16 @@
 	margin: 5px 20px;
 }
 
-.Nav li a {
+.Navbar a, .Link {
 	color: var(--font-link);
 	font-weight: bold;
+	background: none;
+	box-shadow: 0px 1px 6px var(--background-light);
+	border: none;
+	border-radius: 5px;
+	font-family: inherit;
+	font-size: inherit;
+	padding: 5px;
 }
 
 .Logo a {
@@ -35,9 +42,11 @@
 	color: var(--medium);
 }
 
-.Navbar a:hover {
+.Navbar a:hover, .Link:hover {
 	text-decoration: none;
-} 
+	cursor: pointer;
+	box-shadow: 0px 1px 6px var(--medium);
+}
 
 .User {
 	text-align: center;
@@ -55,5 +64,8 @@
 	}
 	.Nav li {
 		margin: 5px 5px;
+	}
+	.User {
+		display: none;
 	}
 }

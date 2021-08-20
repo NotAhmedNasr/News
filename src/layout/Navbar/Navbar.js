@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
+import { logoutUser } from '../../services/Auth';
 import Style from './Navbar.module.css';
 
 const Navbar = (props) => {
@@ -21,7 +22,7 @@ const Navbar = (props) => {
 					<Link to="/Sources">Sources</Link>
 				</li>
 				<li>
-					<Link to="/logout">Log out</Link>
+					<button type="button" className={Style.Link} onClick={logoutUser.bind(null, context)}>Log out</button>
 				</li>
 			</ul>
 		</nav>

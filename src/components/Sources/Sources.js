@@ -29,7 +29,7 @@ const Sources = (props) => {
 			setSources(res.data);
 			setDisplayedSources(res.data);
 		}).catch(err => {
-			console.log(err);
+			throw Error(err);
 		});
 	}
 
@@ -41,7 +41,6 @@ const Sources = (props) => {
 			removeIfSubcriptionChanged(sourceId);
 		}).catch(err => {
 			e.target.disabled = false;
-			console.log(err);
 		});
 	}
 
@@ -53,7 +52,6 @@ const Sources = (props) => {
 			removeIfSubcriptionChanged(sourceId);
 		}).catch(err => {
 			e.target.disabled = false;
-			console.log(err);
 		});
 	}
 

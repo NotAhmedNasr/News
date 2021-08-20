@@ -3,7 +3,6 @@ import { Redirect, Route, Switch } from 'react-router';
 import './App.css';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
-import Logout from './components/Logout/Logout';
 import SignUp from './components/SignUp/SignUp';
 import Sources from './components/Sources/Sources';
 import LoginWrapper from './hoc/LoginWrapper/LoginWrapper';
@@ -37,8 +36,6 @@ function App() {
 			<UserContext.Provider value={userContextValue}>
 				<Layout>
 					<Switch>
-						<Route exact path="/logout" component={Logout} />
-
 						<Route exact path="/login">
 							{user ? <Redirect to="/" /> :
 								(
