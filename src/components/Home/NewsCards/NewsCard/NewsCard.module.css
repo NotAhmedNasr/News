@@ -38,9 +38,12 @@
 }
 
 .Author {
+	display: block;
 	font-weight: bold;
 	font-size: 1rem;
 	color: var(--font-dark);
+	max-width: 400px;
+	word-wrap: break-word;
 }
 
 .Card_link {
