@@ -1,6 +1,7 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './App.css';
+import AppLoadingScreen from './components/Auxiliary/AppLoadingScreen/AppLoadingScreen';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
@@ -13,7 +14,7 @@ export const UserContext = createContext(null);
 
 function App() {
 	const [user, setUser] = useState(null);
-	const [determined, setDetermined] = useState(false);
+	const [isValidSession, setIsValidSession] = useState(false);
 
 	const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -24,49 +25,51 @@ function App() {
 	const didMount = () => {
 		getCurrentUser().then(res => {
 			setUser(res.data);
-			setDetermined(true);
+			setIsValidSession(true);
 		}).catch(err => {
 			setUser(null);
-			setDetermined(true);
+			setIsValidSession(true);
 		});
 	}
 
-	return (determined ?
-		<div className="container">
-			<UserContext.Provider value={userContextValue}>
-				<Layout>
-					<Switch>
-						<Route exact path="/login">
-							{user ? <Redirect to="/" /> :
-								(
-									<LoginWrapper>
-										<Login />
-									</LoginWrapper>
-								)}
-						</Route>
+	return (
+		isValidSession ?
+			<div className="container">
+				<UserContext.Provider value={userContextValue}>
+					<Layout>
+						<Switch>
+							<Route exact path="/login">
+								{user ? <Redirect to="/" /> :
+									(
+										<LoginWrapper>
+											<Login />
+										</LoginWrapper>
+									)}
+							</Route>
 
-						<Route exact path="/signup">
-							{user ? <Redirect to="/" /> :
-								(
-									<LoginWrapper>
-										<SignUp />
-									</LoginWrapper>
-								)}
-						</Route>
+							<Route exact path="/signup">
+								{user ? <Redirect to="/" /> :
+									(
+										<LoginWrapper>
+											<SignUp />
+										</LoginWrapper>
+									)}
+							</Route>
 
-						<Route exact path="/sources">
-							{user ? <Sources /> : <Redirect to="/login" />}
-						</Route>
+							<Route exact path="/sources">
+								{user ? <Sources /> : <Redirect to="/login" />}
+							</Route>
 
-						<Route exact path="/">
-							{user ? <Home /> : <Redirect to="/login" />}
+							<Route exact path="/">
+								{user ? <Home /> : <Redirect to="/login" />}
 
-						</Route>
-					</Switch>
-				</Layout>
-			</UserContext.Provider>
-		</div>
-		: null
+							</Route>
+						</Switch>
+					</Layout>
+				</UserContext.Provider>
+			</div>
+			:
+			<AppLoadingScreen />
 	);
 }
 

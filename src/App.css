@@ -1,6 +1,5 @@
 .container {
 	min-height: 100vh;
-	background-color: var(--background-light);
 	padding: 0 10px 20px 10px;
 	overflow:auto;
 }
