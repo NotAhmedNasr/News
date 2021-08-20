@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 
 
 const axiosInstance = axios.create({
-	baseURL: 'http://localhost:8000/api',
+	baseURL: 'https://awesome-news-api.herokuapp.com/api',
 });
 
 axiosInstance.interceptors.request.use(config => {
