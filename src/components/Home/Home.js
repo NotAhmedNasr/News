@@ -33,7 +33,7 @@ const Home = (props) => {
 
 			const updated = [...news, ...res.data];
 			setNews(updated);
-			
+
 			setPage(page + 1);
 		}).catch(err => {
 			setEndOfData(true);
@@ -42,7 +42,7 @@ const Home = (props) => {
 
 	// UI Elements
 	const UIcontent = (
-		<div>
+		<>
 			<h1 className="heading">Latest News</h1>
 			<div className={Style.News_container}>
 				<NewsCards news={news} />
@@ -50,17 +50,15 @@ const Home = (props) => {
 			{
 				!loading ?
 					!endOfData && <button onClick={getMoreNews} className="form-button">Load more</button> :
-					<div className={Style.Loading}>
+					<div className={Style.Reloading}>
 						<Spinner />
 					</div>
 			}
-		</div>
+		</>
 	);
 
 	const UInoContent = (
-		<div>
-			<h2 className="heading">Nothing to show! <br /> Subscribe to more Sources to see more articles!</h2>
-		</div>
+		<h2 className="heading">Nothing to show! <br /> Subscribe to more Sources to see more articles!</h2>
 	);
 
 	const UIloader = (
@@ -72,13 +70,17 @@ const Home = (props) => {
 
 
 	return (
-		news ?
-			news.length > 0 ?
-				UIcontent
-				:
-				UInoContent
-			:
-			UIloader
+		<div className="nav-padding">
+			{
+				news ?
+					news.length > 0 ?
+						UIcontent
+						:
+						UInoContent
+					:
+					UIloader
+			}
+		</div>
 	);
 }
 

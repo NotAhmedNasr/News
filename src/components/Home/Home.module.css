@@ -6,7 +6,20 @@
 }
 
 .Loading {
+    margin: 40vh auto;
+    width: 200px;
+    height: 200px;
+}
+
+.Reloading {
     margin: auto;
     width: 100px;
     height: 100px;
+}
+
+@media (max-width: 1000px) {
+    .News_container {
+        display: block;
+        padding: 20px 0 20px 0;
+    }
 }

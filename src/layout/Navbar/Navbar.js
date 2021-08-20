@@ -11,14 +11,14 @@ const Navbar = (props) => {
 			<div className={Style.Logo}>
 				<Link to="/">NEWS</Link>
 			</div>
-
+			<span className="spacer"></span>
 			<div className={Style.User}>
 				Welcom back, <span className={Style.Name}>{`${context.user.firstname} ${context.user.lastname}`}</span>!
 			</div>
-			
+			<span className="spacer"></span>
 			<ul className={Style.Nav}>
 				<li>
-					<Link to="/Sources">Manage Sources</Link>
+					<Link to="/Sources">Sources</Link>
 				</li>
 				<li>
 					<Link to="/logout">Log out</Link>

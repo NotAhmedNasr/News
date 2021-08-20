@@ -110,9 +110,7 @@ const Sources = (props) => {
 		);
 
 	const UInoContent = (
-		<div>
-			<h1 className="heading">No sources to show</h1>
-		</div>
+		<h1 className="heading">No sources to show</h1>
 	);
 
 	const UIloader = (
@@ -122,7 +120,7 @@ const Sources = (props) => {
 	);
 
 	return (
-		<div>
+		<div className="nav-padding">
 			{UIheader}
 			{
 				displayedSources ?

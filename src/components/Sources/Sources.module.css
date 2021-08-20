@@ -23,3 +23,10 @@
 .Radio label {
     margin-left: 5px;
 }
+
+@media (max-width: 1000px) {
+    .Source_container {
+        display: block;
+        padding: 20px 0 20px 0;
+    }
+}

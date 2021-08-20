@@ -1,8 +1,8 @@
 .container {
 	min-height: 100vh;
 	background-color: var(--background-light);
-	padding: 50px;
-	padding-top: 80px;
+	padding: 0 10px 20px 10px;
+	overflow:auto;
 }
 
 .dialog {
@@ -72,8 +72,7 @@
 .heading {
 	font-size: 2.5rem;
 	margin: 0;
-	margin-top: 20px;
-	padding-bottom: 40px;
+	padding: 20px 0;
 	color: var(--font-light);
 	text-align: center;
 }
@@ -114,4 +113,18 @@ a:hover {
 
 .form-button.active {
 	background-color: rgb(200, 0, 0);
+}
+
+.nav-padding {
+	margin-top: 80px;
+}
+
+@media (max-width: 1000px) {
+	.dialog {
+		width: auto;
+	}
+
+	.heading {
+		font-size: 1.5rem;
+	}
 }

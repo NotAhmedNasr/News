@@ -53,3 +53,9 @@
 .Content {
 	font-size: 0.9rem;
 }
+
+@media (max-width: 1000px) {
+	.Card_img {
+		min-height: 0 !important;
+	}
+}

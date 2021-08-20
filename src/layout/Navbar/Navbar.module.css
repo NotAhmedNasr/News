@@ -6,6 +6,7 @@
 	padding: 10px 50px;
 	display: flex;
 	flex-direction: row;
+	gap: 10px;
 	align-items: center;
 	background-color: var(--dark);
 	height: 80px;
@@ -15,7 +16,7 @@
 .Nav {
 	list-style-type: none;
 	padding: 0;
-	margin-left: auto;
+	flex: 0 0 auto;
 }
 
 .Nav li {
@@ -24,7 +25,7 @@
 }
 
 .Nav li a {
-	color: var(--font-light);
+	color: var(--font-link);
 	font-weight: bold;
 }
 
@@ -34,12 +35,25 @@
 	color: var(--medium);
 }
 
+.Navbar a:hover {
+	text-decoration: none;
+} 
+
 .User {
-	margin-left: auto;
+	text-align: center;
 	color: var(--font-light);
 }
 
 .Name {
 	font-weight: bold;
 	font-size: 1.1rem;
+}
+
+@media (max-width: 1000px) {
+	.Navbar {
+		padding: 10px 10px;
+	}
+	.Nav li {
+		margin: 5px 5px;
+	}
 }
